@@ -40,13 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(recipes => {
       renderCards(recipes);
 
-      searchBar.addEventListener('input', () => {
+      searchBar.addEventListener('input', (event) => {
+        event.preventDefault();
         const searchText = searchBar.value.toLowerCase();
-        const filteredRecipes = recipes.filter(recipe =>
-          recipe.name.toLowerCase().includes(searchText) ||
-          recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText))
-        );
-        renderCards(filteredRecipes);
+        if (searchText.length >= 3) {
+          const filteredRecipes = recipes.filter(recipe =>
+            recipe.name.toLowerCase().includes(searchText) ||
+            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText))
+          );
+          renderCards(filteredRecipes);
+        } else {
+          renderCards(recipes);
+        }
       });
     });
 
