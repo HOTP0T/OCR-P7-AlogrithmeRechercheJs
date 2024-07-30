@@ -1,30 +1,55 @@
-const userCardTemplate = document.querySelector("[data-user-template]")
-const userCardContainer = document.querySelector("[data-user-cards-container]")
-const searchInput = document.querySelector("[data-search]")
+// ALGO DE RECHERCHE AVEC BOUCLE NATIVE
 
-let users = []
+document.addEventListener('DOMContentLoaded', () => {
+  const recipeCardsContainer = document.getElementById('recipe-cards');
+  const searchBar = document.getElementById('search-bar');
 
-searchInput.addEventListener("input", e => {
-  const value = e.target.value.toLowerCase()
-  console.log(value)
-  users.forEach(user => {
-    const isVisible =
-      user.name.toLowerCase().includes(value) ||
-      user.email.toLowerCase().includes(value)
-    user.element.classList.toggle("hide", !isVisible)
-  })
-})
+  fetch('./data/recipes.json')
+    .then(response => response.json())
+    .then(recipes => {
+      renderCards(recipes);
 
-fetch("https://jsonplaceholder.typicode.com/users")
-  .then(res => res.json())
-  .then(data => {
-    users = data.map(user => {
-      const card = userCardTemplate.content.cloneNode(true).children[0]
-      const header = card.querySelector("[data-header]")
-      const body = card.querySelector("[data-body]")
-      header.textContent = user.name
-      body.textContent = user.email
-      userCardContainer.append(card)
-      return { name: user.name, email: user.email, element: card }
-    })
-  })
+      searchBar.addEventListener('input', (event) => {
+        event.preventDefault();
+        const searchText = searchBar.value.toLowerCase();
+        if (searchText.length >= 3) {
+          const filteredRecipes = [];
+          for (let i = 0; i < recipes.length; i++) {
+            const recipe = recipes[i];
+            if (recipe.name.toLowerCase().includes(searchText)) {
+              filteredRecipes.push(recipe);
+              continue;
+            }
+            for (let j = 0; j < recipe.ingredients.length; j++) {
+              const ingredient = recipe.ingredients[j];
+              if (ingredient.ingredient.toLowerCase().includes(searchText)) {
+                filteredRecipes.push(recipe);
+                break;
+              }
+            }
+          }
+          renderCards(filteredRecipes);
+        } else {
+          renderCards(recipes);
+        }
+      });
+    });
+
+  function renderCards(recipes) {
+    recipeCardsContainer.innerHTML = '';
+    for (let i = 0; i < recipes.length; i++) {
+      const recipe = recipes[i];
+      const card = document.createElement('div');
+      card.className = 'card col-md-4 mb-4';
+      card.style.width = '18rem';
+      card.innerHTML = `
+        <img class="card-img-top" src="${recipe.image}" alt="${recipe.name}">
+        <div class="card-body">
+          <h5 class="card-title">${recipe.name}</h5>
+          <p class="card-text">${recipe.description}</p>
+        </div>
+      `;
+      recipeCardsContainer.appendChild(card);
+    }
+  }
+});
