@@ -11,12 +11,38 @@
 
   <body>
 
-    <div class="search-bar container-fluid">
-        <div class="input-group flex-nowrap">
-          <input type="text" id="search-bar" class="form-control" placeholder="Rechercher une recette, un ingrédient, ..." aria-label="Search" aria-describedby="addon-wrapping">
-          <i class="fa-solid fa-magnifying-glass"></i>
+    <div class="container-fluid mt-4">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group flex-nowrap">
+            <input type="text" id="search-bar" class="form-control" placeholder="Rechercher une recette, un ingrédient, ..." aria-label="Search" aria-describedby="addon-wrapping">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-4">
+              <select id="ingredient-filter" class="form-select" aria-label="Filtrer par ingrédient">
+                <option selected>Filtrer par ingrédient</option>
+                <!-- Options seront ajoutées dynamiquement -->
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select id="appliance-filter" class="form-select" aria-label="Filtrer par appareil">
+                <option selected>Filtrer par appareil</option>
+                <!-- Options seront ajoutées dynamiquement -->
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select id="utensil-filter" class="form-select" aria-label="Filtrer par ustensile">
+                <option selected>Filtrer par ustensile</option>
+                <!-- Options seront ajoutées dynamiquement -->
+              </select>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
       <div class="container mt-4">
         <div class="row" id="recipe-cards"></div>
