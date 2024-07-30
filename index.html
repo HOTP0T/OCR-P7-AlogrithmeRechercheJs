@@ -1,40 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>OCR_P7</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style/style.css">
-    <script src="https://kit.fontawesome.com/914ca5d668.js" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style/style.css" />
+    <script
+      src="https://kit.fontawesome.com/914ca5d668.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
-
     <div class="container-fluid mt-4">
       <div class="row">
-        <div class="col-md-6">
-          <div class="input-group flex-nowrap">
-            <input type="text" id="search-bar" class="form-control" placeholder="Rechercher une recette, un ingrédient, ..." aria-label="Search" aria-describedby="addon-wrapping">
-            <i class="fa-solid fa-magnifying-glass"></i>
+
+        <div class="search-bar-container">
+          <!-- <div class="col-md-6"> -->
+            <div class="input-group flex-nowrap">
+              <input
+                type="text"
+                id="search-bar"
+                class="form-control"
+                placeholder="Rechercher une recette, un ingrédient, ..."
+                aria-label="Search"
+                aria-describedby="addon-wrapping"
+              />
+              <i class="fa-solid fa-magnifying-glass"></i>
+            
           </div>
         </div>
+
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-4">
-              <select id="ingredient-filter" class="form-select" aria-label="Filtrer par ingrédient">
+              <select
+                id="ingredient-filter"
+                class="form-select"
+                aria-label="Filtrer par ingrédient"
+              >
                 <option selected>Filtrer par ingrédient</option>
                 <!-- Options seront ajoutées dynamiquement -->
               </select>
             </div>
             <div class="col-md-4">
-              <select id="appliance-filter" class="form-select" aria-label="Filtrer par appareil">
+              <select
+                id="appliance-filter"
+                class="form-select"
+                aria-label="Filtrer par appareil"
+              >
                 <option selected>Filtrer par appareil</option>
                 <!-- Options seront ajoutées dynamiquement -->
               </select>
             </div>
             <div class="col-md-4">
-              <select id="utensil-filter" class="form-select" aria-label="Filtrer par ustensile">
+              <select
+                id="utensil-filter"
+                class="form-select"
+                aria-label="Filtrer par ustensile"
+              >
                 <option selected>Filtrer par ustensile</option>
                 <!-- Options seront ajoutées dynamiquement -->
               </select>
@@ -44,11 +74,16 @@
       </div>
     </div>
 
-      <div class="container mt-4">
-        <div class="row" id="recipe-cards"></div>
-      </div>
+    <div class="container mt-4">
+      <div class="row" id="recipe-cards"></div>
+    </div>
 
     <script src="./script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
   </body>
 </html>
