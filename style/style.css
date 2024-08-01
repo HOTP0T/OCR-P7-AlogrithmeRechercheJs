@@ -4,8 +4,9 @@ body {
   background-color: grey;
   padding: 0;
 }
-/*#endregion SEARCH BAR*/
+/*#endregion */
 
+/*#region SEARCH BAR*/
 .search-bar-container {
   height: 300px;
   display: flex;
@@ -17,13 +18,30 @@ body {
   background-size: cover;
 }
 
+.input-group {
+  width: 50%;
+  background: none;
+}
+
 .fa-magnifying-glass {
-  height: 28px;
-  width: 27px;
+
   color: white;
-  background-color: black;
   border-radius: 10px;
 }
+
+.text-center {
+  text-align: center;
+  color: #FFD15B;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.LPP {
+  background: none;
+}
+
+/*#endregion */
 
 /*#region Header*/
 

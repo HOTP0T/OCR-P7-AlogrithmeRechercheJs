@@ -10,6 +10,9 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous">
     <link rel="stylesheet" href="./style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script
       src="https://kit.fontawesome.com/914ca5d668.js"
       crossorigin="anonymous"
@@ -23,10 +26,15 @@
         <div class="col-md-12">
           <div class="search-bar-container">
             <img
-          src="./img/logo.png"
-          class="img-fluid mx-auto d-block"
-          alt="Logo de l'application"
-        />
+              src="./Assets/LPP_logo.png"
+              class="img-fluid mx-auto d-block LPP"
+              alt="Logo de l'application"
+            />
+                <h1 class="text-center LPP">
+                  CHERCHEZ PARMI PLUS DE 1500 RECETTES
+                  <br />
+                  DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES
+                </h1>
             <div class="input-group flex-nowrap">
               <input
                 type="text"
@@ -34,40 +42,40 @@
                 class="form-control"
                 placeholder="Rechercher une recette, un ingrédient, ..."
                 aria-label="Search">
-              <i class="fa-solid fa-magnifying-glass"></i>
+                <img src="./Assets/Loop CTA.png" class="search-icon" alt="Icone de recherche">
             </div>
           </div>
         </div>
 
         <div class="col-md-12 mt-4">
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
               <select
                 id="ingredient-filter"
                 class="form-select"
                 aria-label="Filtrer par ingrédient"
               >
-                <option selected>Filtrer par ingrédient</option>
+                <option selected>Ingrédients</option>
                 <!-- Options seront ajoutées dynamiquement -->
               </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
               <select
                 id="appliance-filter"
                 class="form-select"
                 aria-label="Filtrer par appareil"
               >
-                <option selected>Filtrer par appareil</option>
+                <option selected>Appareils</option>
                 <!-- Options seront ajoutées dynamiquement -->
               </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
               <select
                 id="utensil-filter"
                 class="form-select"
                 aria-label="Filtrer par ustensile"
               >
-                <option selected>Filtrer par ustensile</option>
+                <option selected>Ustensiles</option>
                 <!-- Options seront ajoutées dynamiquement -->
               </select>
             </div>
