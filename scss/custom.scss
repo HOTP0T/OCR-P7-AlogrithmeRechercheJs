@@ -6,3 +6,106 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 // Then add additional custom code here
+/*#region General Styling*/
+*,
+body {
+  padding: 0;
+}
+/*#endregion */
+
+/*#region SEARCH BAR*/
+.search-bar-container {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("../Assets/lampos-aritonang-24gR_9lCdes-unsplash\ 1.png");
+  background-size: cover;
+}
+
+.input-group {
+  width: 50%;
+  background: none;
+}
+
+.fa-magnifying-glass {
+
+  color: white;
+  border-radius: 10px;
+}
+
+.text-center {
+  text-align: center;
+  color: #FFD15B;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.LPP {
+  background: none;
+}
+
+/*#endregion */
+
+/*#region Header*/
+
+.card {
+  width: 18rem;
+}
+
+/*#endregion*/
+
+/*#region SearchAlgo HideCards*/
+.fa-magnifying-glass {
+  height: 28px;
+  width: 27px;
+}
+
+.search-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* input {
+  font-size: 1rem;
+}
+
+.user-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.card {
+  border: 1px solid black;
+  background-color: white;
+  padding: 0.5rem;
+}
+
+.card > .header {
+  margin-bottom: 0.25rem;
+}
+
+.card > .body {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.hide {
+  display: none;
+} */
+/*#endregion*/
+
+/*#region BreakPoint Queries*/
+
+/* @include media-breakpoint-up(sm) { ... }
+@include media-breakpoint-up(md) { ... }
+@include media-breakpoint-up(lg) { ... }
+@include media-breakpoint-up(xl) { ... } */
+
+/*#endregion*/
