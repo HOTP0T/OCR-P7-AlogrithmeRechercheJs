@@ -1,0 +1,15 @@
+{
+  "name": "ocr-p7-alogrithmerecherchejs",
+  "version": "1.0.0",
+  "description": "Projet 7 du Parcours OpenClassRooms JS-React : Développez un algorithme de recherche en JavaScript",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
