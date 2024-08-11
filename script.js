@@ -60,19 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
     [recipe.name, recipe.description].some(field => field.toLowerCase().includes(searchText)) ||
     recipe.ingredients.some(ing => ing.ingredient.toLowerCase().includes(searchText));
 
-  // Check if a recipe matches the selected ingredient
   const matchesIngredient = (recipe, selectedIngredient) =>
-    selectedIngredient === "filtrer par ingrédient" ||
+    selectedIngredient === "ingrédients" ||
     recipe.ingredients.some(ing => ing.ingredient.toLowerCase().includes(selectedIngredient));
-
-  // Check if a recipe matches the selected appliance
+  
   const matchesAppliance = (recipe, selectedAppliance) =>
-    selectedAppliance === "filtrer par appareil" ||
+    selectedAppliance === "appareils" ||
     recipe.appliance.toLowerCase().includes(selectedAppliance);
-
-  // Check if a recipe matches the selected utensil
+  
   const matchesUtensil = (recipe, selectedUtensil) =>
-    selectedUtensil === "filtrer par ustensile" ||
+    selectedUtensil === "ustensiles" ||
     recipe.ustensils.some(utensil => utensil.toLowerCase().includes(selectedUtensil));
 
   // Utility function to get a unique, sorted list
