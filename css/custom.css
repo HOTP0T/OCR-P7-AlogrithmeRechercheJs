@@ -11926,6 +11926,35 @@ input {
 /*#region Header*/
 /*#endregion*/
 /*#region dropdown*/
+.bootstrap-dropdown {
+  display: flex;
+  margin: 65px;
+  gap: 65px;
+  flex-wrap: wrap;
+}
+
+ul li form {
+  display: flex;
+}
+
+.dropdown-center,
+.dropdown-toggle,
+.dropdown-menu {
+  width: 175px;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus .dropdown-item:active,
+.active {
+  background: #FFD15B;
+  color: white;
+}
+
+.dropdown-center button {
+  background: white;
+  color: black;
+}
+
 .dropdown-div {
   margin: 65px;
   gap: 65px;
