@@ -1,6 +1,7 @@
 "use strict";
 
 // Version Boucles Natives
+console.log("Version Boucles Natives");
 
 const lancerRecherche = (data, motCle) =>
 {
