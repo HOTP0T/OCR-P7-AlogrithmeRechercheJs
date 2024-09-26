@@ -3,8 +3,11 @@
 // Version Programmation Fonctionnelle
 
 // Fonction principale de recherche en programmation fonctionnelle
-const lancerRechercheFonctionnelle = (data, motCle) => {
+const lancerRecherche = (data, motCle) => {
   APP.motCle = motCle;
+
+  // Conversion de 'data' en tableau si ce n'est pas déjà un tableau
+  data = Array.isArray(data) ? data : Array.from(data);
 
   if (motCle.length !== 0) {
       // Utilisation de Set et des méthodes fonctionnelles
@@ -22,9 +25,9 @@ const lancerRechercheFonctionnelle = (data, motCle) => {
           })
       );
 
-      APP.resultatRechercheRecette = appliquerFiltresFonctionnel([...APP.resultatRechercheRecette]);
+      APP.resultatRechercheRecette = appliquerFiltres([...APP.resultatRechercheRecette]);
   } else {
-      APP.resultatRechercheRecette = appliquerFiltresFonctionnel(data);
+      APP.resultatRechercheRecette = appliquerFiltres(data);
   }
 
   afficherRecettes(APP.resultatRechercheRecette);
@@ -33,13 +36,13 @@ const lancerRechercheFonctionnelle = (data, motCle) => {
 };
 
 // Appliquer les filtres en programmation fonctionnelle
-const appliquerFiltresFonctionnel = (data) => {
+const appliquerFiltres = (data) => {
   const { ingredients, ustensils, appareils } = APP.donneesFiltresSelected;
 
   if (!ingredients.size && !ustensils.size && !appareils.size) return data;
 
   // Filtrage fonctionnel
-  const result = data.filter(recipe => {
+  const result = Array.from(data).filter(recipe => {
       const ingredientsMatch = ingredients.size
           ? [...ingredients].every(ing =>
                 recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(ing.toLowerCase()))
@@ -64,22 +67,26 @@ const appliquerFiltresFonctionnel = (data) => {
 };
 
 const afficherNombreRecette = (recettes) => {
-    const recetteCount = document.getElementById("recette-count");
-    recetteCount.innerText = String(recettes.size).padStart(2, "0") + " recette(s)";
-}
+  const recetteCount = document.getElementById("recette-count");
+
+  // Si 'recettes' est un tableau, utilise 'length', sinon 'size' pour les Set
+  const nombreDeRecettes = Array.isArray(recettes) ? recettes.length : recettes.size;
+
+  recetteCount.innerText = String(nombreDeRecettes).padStart(2, "0") + " recette(s)";
+};
 
 // Mettre à jour les filtres en programmation fonctionnelle
-const miseAjourFiltresFonctionnel = (data) => {
-  if (data.length > 0) {
-      APP.donnees_filtres.ingredients = new Set(
-          data.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()))
-      );
-      APP.donnees_filtres.ustensils = new Set(
-          data.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()))
-      );
-      APP.donnees_filtres.appareils = new Set(
-          data.map(recipe => recipe.appliance.toLowerCase())
-      );
+const miseAjourFiltres = (data) => {
+  if (data.size > 0) {
+    APP.donnees_filtres.ingredients = new Set(
+      Array.from(data).flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()))
+  );
+  APP.donnees_filtres.ustensils = new Set(
+      Array.from(data).flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()))
+  );
+  APP.donnees_filtres.appareils = new Set(
+      Array.from(data).map(recipe => recipe.appliance.toLowerCase())
+  );
   }
 
   afficherDropdownIngredientsData(APP.donnees_filtres.ingredients);
@@ -432,19 +439,25 @@ const handleSubmitSearchForm = ($event) => {
 }
 
 const handleChangeSearchInputForm = ($event) => {
-    $event.preventDefault();
-    const motCle = document.forms["search-form"]["i-search"].value;
-    const clearMainSearch = document.getElementById("i-clear");
+  $event.preventDefault();
+  const motCle = document.forms["search-form"]["i-search"].value.trim();
+  const clearMainSearch = document.getElementById("i-clear");
 
-    if (motCle.trim().length > 0) {
-        clearMainSearch.classList.remove("d-none")
-        return;
-    }
+  if (motCle.length > 0) {
+      clearMainSearch.classList.remove("d-none");
 
-    clearMainSearch.classList.add("d-none")
-    resetComponents();
-    lancerRecherche(APP.recettes, motCle)
-}
+      // Si le mot clé a 3 caractères ou plus, lancer la recherche
+      if (motCle.length >= 3) {
+          resetComponents();
+          lancerRecherche(APP.recettes, motCle);
+      }
+  } else {
+      // Si l'input est vide, réinitialiser la recherche
+      clearMainSearch.classList.add("d-none");
+      resetComponents();
+      lancerRecherche(APP.recettes, motCle);
+  }
+};
 
 
 // Initalisation de l'application
