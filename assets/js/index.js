@@ -4,32 +4,27 @@
 
 // Fonction principale de recherche en programmation fonctionnelle
 const lancerRecherche = (data, motCle) => {
-  APP.motCle = motCle;
+  APP.motCle = motCle.trim();
 
   // Conversion de 'data' en tableau si ce n'est pas déjà un tableau
   data = Array.isArray(data) ? data : Array.from(data);
 
-  if (motCle.length !== 0) {
-      // Utilisation de Set et des méthodes fonctionnelles
-      APP.resultatRechercheRecette = new Set(
-          data.filter(recette => {
-              // Extraction des textes à partir de recettes en utilisant map
-              let recetteTexte = [
-                  ...recette.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()),
-                  ...recette.ustensils.map(ustensil => ustensil.toLowerCase()),
-                  recette.name.toLowerCase()
-              ].join(" ");
+  // Filtrer par mot-clé si un mot-clé est présent
+  let resultats = motCle.length !== 0
+      ? data.filter(recette => {
+          let recetteTexte = [
+              ...recette.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()),
+              ...recette.ustensils.map(ustensil => ustensil.toLowerCase()),
+              recette.name.toLowerCase()
+          ].join(" ");
+          return recetteTexte.includes(motCle.toLowerCase());
+      })
+      : data;
 
-              // Vérification si le texte contient le mot clé
-              return recetteTexte.includes(motCle.toLowerCase());
-          })
-      );
+  // Ensuite, appliquer les filtres (ingrédients, ustensils, appareils) sur les résultats filtrés par mot-clé
+  APP.resultatRechercheRecette = appliquerFiltres(resultats);
 
-      APP.resultatRechercheRecette = appliquerFiltres([...APP.resultatRechercheRecette]);
-  } else {
-      APP.resultatRechercheRecette = appliquerFiltres(data);
-  }
-
+  // Afficher les résultats, mettre à jour les filtres, et afficher les tags
   afficherRecettes(APP.resultatRechercheRecette);
   miseAjourFiltres(APP.resultatRechercheRecette);
   afficherTags();
@@ -39,10 +34,11 @@ const lancerRecherche = (data, motCle) => {
 const appliquerFiltres = (data) => {
   const { ingredients, ustensils, appareils } = APP.donneesFiltresSelected;
 
+  // Ne filtrer que si des filtres sont sélectionnés
   if (!ingredients.size && !ustensils.size && !appareils.size) return data;
 
-  // Filtrage fonctionnel
-  const result = Array.from(data).filter(recipe => {
+  // Filtrer fonctionnellement par ingrédients, ustensils et appareils
+  const result = data.filter(recipe => {
       const ingredientsMatch = ingredients.size
           ? [...ingredients].every(ing =>
                 recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(ing.toLowerCase()))
@@ -77,21 +73,25 @@ const afficherNombreRecette = (recettes) => {
 
 // Mettre à jour les filtres en programmation fonctionnelle
 const miseAjourFiltres = (data) => {
-  if (data.size > 0) {
+  // Conversion de 'data' en tableau pour éviter les problèmes avec Set
+  const recettesArray = Array.isArray(data) ? data : Array.from(data);
+
+  if (recettesArray.length > 0) {
     APP.donnees_filtres.ingredients = new Set(
-      Array.from(data).flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()))
-  );
-  APP.donnees_filtres.ustensils = new Set(
-      Array.from(data).flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()))
-  );
-  APP.donnees_filtres.appareils = new Set(
-      Array.from(data).map(recipe => recipe.appliance.toLowerCase())
-  );
+      recettesArray.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()))
+    );
+    APP.donnees_filtres.ustensils = new Set(
+      recettesArray.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()))
+    );
+    APP.donnees_filtres.appareils = new Set(
+      recettesArray.map(recipe => recipe.appliance.toLowerCase())
+    );
   }
 
-  afficherDropdownIngredientsData(APP.donnees_filtres.ingredients);
-  afficherDropdownUstensilsData(APP.donnees_filtres.ustensils);
-  afficherDropdownAppareilsData(APP.donnees_filtres.appareils);
+  // Mettre à jour les dropdowns avec des tableaux issus des Set
+  afficherDropdownIngredientsData(Array.from(APP.donnees_filtres.ingredients));
+  afficherDropdownUstensilsData(Array.from(APP.donnees_filtres.ustensils));
+  afficherDropdownAppareilsData(Array.from(APP.donnees_filtres.appareils));
 };
 
 const resetTags = () => {
@@ -446,16 +446,13 @@ const handleChangeSearchInputForm = ($event) => {
   if (motCle.length > 0) {
       clearMainSearch.classList.remove("d-none");
 
-      // Si le mot clé a 3 caractères ou plus, lancer la recherche
+      // Si le mot clé a 3 caractères ou plus, lancer la recherche en tenant compte des filtres actuels
       if (motCle.length >= 3) {
-          resetComponents();
           lancerRecherche(APP.recettes, motCle);
       }
   } else {
-      // Si l'input est vide, réinitialiser la recherche
       clearMainSearch.classList.add("d-none");
-      resetComponents();
-      lancerRecherche(APP.recettes, motCle);
+      lancerRecherche(APP.recettes, "");  // Réinitialiser si la barre est vide
   }
 };
 
