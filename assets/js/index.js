@@ -1,7 +1,7 @@
 "use strict";
 
-// Version Boucles Natives
-console.log("Version Boucles Natives");
+// Version Programmation Fonctionnelle
+console.log("Programmation Fonctionnelle");
 
 const lancerRecherche = (data, motCle) =>
 {
