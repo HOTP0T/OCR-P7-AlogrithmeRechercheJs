@@ -1,6 +1,7 @@
 "use strict";
 
-// Version Programmation Fonctionnelle
+// Version Boucles Natives
+// REECRIRE LA FONCTIONNALITE DE LANCER RECHERCHE EN UTILISANT DES BOUCLES NATIVES
 
 // Fonction principale de recherche en programmation fonctionnelle
 const lancerRecherche = (data, motCle) => {
