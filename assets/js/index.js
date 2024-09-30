@@ -1,99 +1,136 @@
 "use strict";
 
 // Version Boucles Natives
-// REECRIRE LA FONCTIONNALITE DE LANCER RECHERCHE EN UTILISANT DES BOUCLES NATIVES
+console.log("Version Boucles Natives");
 
-// Fonction principale de recherche en programmation fonctionnelle
 const lancerRecherche = (data, motCle) => {
-  APP.motCle = motCle.trim();
+    APP.motCle = motCle;
 
-  // Conversion de 'data' en tableau si ce n'est pas déjà un tableau
-  data = Array.isArray(data) ? data : Array.from(data);
+    if (motCle.length != 0) {
+        APP.resultatRechercheRecette = new Set([]);
 
-  // Filtrer par mot-clé si un mot-clé est présent
-  let resultats = motCle.length !== 0
-      ? data.filter(recette => {
-          let recetteTexte = [
-              ...recette.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()),
-              ...recette.ustensils.map(ustensil => ustensil.toLowerCase()),
-              recette.name.toLowerCase()
-          ].join(" ");
-          return recetteTexte.includes(motCle.toLowerCase());
-      })
-      : data;
+        for (let i = 0; i < data.length; i++) {
+            const recette = data[i];
+            let recetteTexte = [];
+            
+            // Remplacer le .map() par une boucle for
+            for (let j = 0; j < recette.ingredients.length; j++) {
+                recetteTexte.push(recette.ingredients[j].ingredient);
+            }
 
-  // Ensuite, appliquer les filtres (ingrédients, ustensils, appareils) sur les résultats filtrés par mot-clé
-  APP.resultatRechercheRecette = appliquerFiltres(resultats);
+            // Ajout des ustensils
+            recetteTexte = recetteTexte.concat(recette.ustensils);
+            recetteTexte.push(recette.name);
+            recetteTexte = recetteTexte.join(" ").toLowerCase();
 
-  // Afficher les résultats, mettre à jour les filtres, et afficher les tags
-  afficherRecettes(APP.resultatRechercheRecette);
-  miseAjourFiltres(APP.resultatRechercheRecette);
-  afficherTags();
+            // Vérifier si le mot-clé est inclus
+            if (recetteTexte.includes(motCle.toLowerCase())) {
+                APP.resultatRechercheRecette.add(recette);
+            }
+        }
+
+        APP.resultatRechercheRecette = appliquerFiltres(APP.resultatRechercheRecette);
+    } else {
+        APP.resultatRechercheRecette = appliquerFiltres(data);
+    }
+
+    afficherRecettes(APP.resultatRechercheRecette);
+    miseAjourFiltres(APP.resultatRechercheRecette);
+    afficherTags();
 };
 
-// Appliquer les filtres en programmation fonctionnelle
-const appliquerFiltres = (data) => {
-  const { ingredients, ustensils, appareils } = APP.donneesFiltresSelected;
+const appliquerFiltres = (data) => 
+{
+    // Si aucun filtre séléectionné alors ne rien faire
+    if (APP.donneesFiltresSelected.ingredients.size === 0 && 
+        APP.donneesFiltresSelected.ustensils.size === 0 &&
+        APP.donneesFiltresSelected.appareils.size === 0
+    ) { return data }
 
-  // Ne filtrer que si des filtres sont sélectionnés
-  if (!ingredients.size && !ustensils.size && !appareils.size) return data;
+    const resultIngredients = new Set([]);
+    const resultUstensils = new Set([]);
+    const resultAppareils = new Set([]);
+    const result = new Set([]);
 
-  // Filtrer fonctionnellement par ingrédients, ustensils et appareils
-  const result = data.filter(recipe => {
-      const ingredientsMatch = ingredients.size
-          ? [...ingredients].every(ing =>
-                recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(ing.toLowerCase()))
-            )
-          : true;
+    // Filtrage du résultat en fonction des selections
+    data.forEach(recipe => 
+    {
+        if (APP.donneesFiltresSelected.ingredients.size > 0)
+        {
+            const ings = recipe.ingredients.map(ing => ing.ingredient.toLowerCase());
 
-      const ustensilsMatch = ustensils.size
-          ? [...ustensils].every(ust =>
-                recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(ust.toLowerCase()))
-            )
-          : true;
+            if ([...APP.donneesFiltresSelected.ingredients].every(el => ings.includes(el.toLowerCase())))
+            {
+                resultIngredients.add(recipe)
+            }
+        }
+        
+        if (APP.donneesFiltresSelected.ustensils.size > 0)
+        {
+            const ustens = recipe.ustensils.map(usten => usten.toLowerCase());
 
-      const appareilsMatch = appareils.size
-          ? [...appareils].some(app => recipe.appliance.toLowerCase().includes(app.toLowerCase()))
-          : true;
+            if ([...APP.donneesFiltresSelected.ustensils].every(el => ustens.includes(el.toLowerCase())))
+            {
+                resultUstensils.add(recipe)
+            }
 
-      return ingredientsMatch && ustensilsMatch && appareilsMatch;
-  });
+        }
+        
+        if (APP.donneesFiltresSelected.appareils.size > 0)
+        {
+            const apps = recipe.appliance.toLowerCase();
+            const appsFilter = [...APP.donneesFiltresSelected.appareils].map(app => app.toLowerCase());
 
-  afficherNombreRecette(result);
-  return result;
-};
+            if (appsFilter.includes(apps.toLowerCase()))
+            {
+                resultAppareils.add(recipe)
+            }
+
+        }
+        
+    })
+    
+    const list = [...resultIngredients, ...resultUstensils, ...resultAppareils];
+    const seen = new Set();
+
+    list.forEach(recipe => 
+    {
+        if (seen.has(recipe)) result.add(recipe)
+        else seen.add(recipe)
+    });
+
+    afficherNombreRecette(result)
+    return result.size > 0 ? result : seen;
+}
 
 const afficherNombreRecette = (recettes) => {
-  const recetteCount = document.getElementById("recette-count");
+    const recetteCount = document.getElementById("recette-count");
+    recetteCount.innerText = String(recettes.size).padStart(2, "0") + " recette(s)";
+}
 
-  // Si 'recettes' est un tableau, utilise 'length', sinon 'size' pour les Set
-  const nombreDeRecettes = Array.isArray(recettes) ? recettes.length : recettes.size;
+const miseAjourFiltres = (data) => 
+{
+    if (data.size > 0)
+    {
+        // Initialisation des filtres
+        APP.donnees_filtres.ingredients = new Set([]);
+        APP.donnees_filtres.ustensils = new Set([]);
+        APP.donnees_filtres.appareils = new Set([]);
 
-  recetteCount.innerText = String(nombreDeRecettes).padStart(2, "0") + " recette(s)";
-};
+        const callback = recette =>
+        {
+            recette.ingredients.forEach(ingredient => APP.donnees_filtres.ingredients.add(ingredient.ingredient.toLowerCase()));
+            recette.ustensils.forEach(ustensil => APP.donnees_filtres.ustensils.add(ustensil.toLowerCase()));
+            APP.donnees_filtres.appareils.add(recette.appliance.toLowerCase());
+        }
 
-// Mettre à jour les filtres en programmation fonctionnelle
-const miseAjourFiltres = (data) => {
-  // Conversion de 'data' en tableau pour éviter les problèmes avec Set
-  const recettesArray = Array.isArray(data) ? data : Array.from(data);
-
-  if (recettesArray.length > 0) {
-    APP.donnees_filtres.ingredients = new Set(
-      recettesArray.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()))
-    );
-    APP.donnees_filtres.ustensils = new Set(
-      recettesArray.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()))
-    );
-    APP.donnees_filtres.appareils = new Set(
-      recettesArray.map(recipe => recipe.appliance.toLowerCase())
-    );
-  }
-
-  // Mettre à jour les dropdowns avec des tableaux issus des Set
-  afficherDropdownIngredientsData(Array.from(APP.donnees_filtres.ingredients));
-  afficherDropdownUstensilsData(Array.from(APP.donnees_filtres.ustensils));
-  afficherDropdownAppareilsData(Array.from(APP.donnees_filtres.appareils));
-};
+        data.forEach(callback);
+    }
+    
+    afficherDropdownIngredientsData(APP.donnees_filtres.ingredients);
+    afficherDropdownUstensilsData(APP.donnees_filtres.ustensils);
+    afficherDropdownAppareilsData(APP.donnees_filtres.appareils);
+}
 
 const resetTags = () => {
     const tagsRender = document.getElementById("tags-render");
@@ -440,22 +477,19 @@ const handleSubmitSearchForm = ($event) => {
 }
 
 const handleChangeSearchInputForm = ($event) => {
-  $event.preventDefault();
-  const motCle = document.forms["search-form"]["i-search"].value.trim();
-  const clearMainSearch = document.getElementById("i-clear");
+    $event.preventDefault();
+    const motCle = document.forms["search-form"]["i-search"].value;
+    const clearMainSearch = document.getElementById("i-clear");
 
-  if (motCle.length > 0) {
-      clearMainSearch.classList.remove("d-none");
+    if (motCle.trim().length > 0) {
+        clearMainSearch.classList.remove("d-none")
+        return;
+    }
 
-      // Si le mot clé a 3 caractères ou plus, lancer la recherche en tenant compte des filtres actuels
-      if (motCle.length >= 3) {
-          lancerRecherche(APP.recettes, motCle);
-      }
-  } else {
-      clearMainSearch.classList.add("d-none");
-      lancerRecherche(APP.recettes, "");  // Réinitialiser si la barre est vide
-  }
-};
+    clearMainSearch.classList.add("d-none")
+    resetComponents();
+    lancerRecherche(APP.recettes, motCle)
+}
 
 
 // Initalisation de l'application
