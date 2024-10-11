@@ -10,6 +10,7 @@ const lancerRecherche = (data, motCle) => {
   if (motCle.length != 0) {
     APP.resultatRechercheRecette = new Set([]);
 
+    // Initialisation de la recherche
     for (let i = 0; i < data.length; i++) {
       const recette = data[i];
       let recetteTexte = [];
