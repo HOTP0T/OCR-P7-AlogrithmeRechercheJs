@@ -1,6 +1,6 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
   <diagram name="Algorigramme P7 OCR" id="jOy751GeBFuFon6QqMQW">
-    <mxGraphModel dx="2585" dy="3035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="1">
+    <mxGraphModel dx="1312" dy="1278" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="1">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -119,6 +119,11 @@
         </mxCell>
         <mxCell id="IJ2SiHNuo3vnXYf_o8qg-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="IJ2SiHNuo3vnXYf_o8qg-24" target="IJ2SiHNuo3vnXYf_o8qg-30" edge="1">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="W7yFFJr7JSYi5tFQH_64-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="IJ2SiHNuo3vnXYf_o8qg-24">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="2140" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="IJ2SiHNuo3vnXYf_o8qg-24" value="&lt;pre&gt;&lt;font color=&quot;#24f04d&quot;&gt;compteur++&lt;/font&gt;&lt;/pre&gt;" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="519.3399999999999" y="2160" width="147.5" height="73.75" as="geometry" />

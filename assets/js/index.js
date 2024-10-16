@@ -9,6 +9,8 @@ const lancerRecherche = (data, motCle) => {
   data = Array.from(data);
 
   if (motCle.length != 0) {
+
+    // Using set to avoid duplicate results
     APP.resultatRechercheRecette = new Set([]);
 
     // Initialisation de la recherche
@@ -21,9 +23,9 @@ const lancerRecherche = (data, motCle) => {
         recetteTexte.push(recette.ingredients[j].ingredient);
       }
 
-      // Ajouter les ustensiles et le nom de la recette
-      recetteTexte = recetteTexte.concat(recette.ustensils);
+      // Ajouter le nom de la recette et la description
       recetteTexte.push(recette.name);
+      recetteTexte.push(recette.description);
 
       // Convertir le texte en minuscule pour la comparaison
       recetteTexte = recetteTexte.join(" ").toLowerCase();
@@ -465,7 +467,6 @@ const handleSubmitSearchForm = ($event) => {
   if (motCle.length > 0 && motCle.length < 3)
     return;
 
-  resetComponents();
   lancerRecherche(APP.recettes, motCle)
 }
 
@@ -481,7 +482,6 @@ const handleChangeSearchInputForm = ($event) => {
   }
 
   clearMainSearch.classList.add("d-none")
-  resetComponents();
   lancerRecherche(APP.recettes, motCle)
 }
 
