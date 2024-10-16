@@ -14,8 +14,9 @@ const lancerRecherche = (data, motCle) =>
         const callback = recette => 
         {
             let recetteTexte = recette.ingredients.map(ingredient => ingredient.ingredient);
-            recetteTexte.concat(recette.ustensils);
+            // Exclude ustensils from main search and include description
             recetteTexte.push(recette.name);
+            recetteTexte.push(recette.description);
             recetteTexte = recetteTexte.join(" ").toLowerCase();
             const recetteExiste = recetteTexte.includes(motCle.toLowerCase());
             if (recetteExiste) APP.resultatRechercheRecette.add(recette);
@@ -36,7 +37,7 @@ const lancerRecherche = (data, motCle) =>
 
 const appliquerFiltres = (data) => 
 {
-    // Si aucun filtre séléectionné alors ne rien faire
+    // Si aucun filtre sélectionné alors ne rien faire
     if (APP.donneesFiltresSelected.ingredients.size === 0 && 
         APP.donneesFiltresSelected.ustensils.size === 0 &&
         APP.donneesFiltresSelected.appareils.size === 0
@@ -467,7 +468,7 @@ const handleSubmitSearchForm = ($event) => {
     if (motCle.length > 0 && motCle.length < 3)
         return;
 
-    resetComponents();
+    // Removed resetComponents();
     lancerRecherche(APP.recettes, motCle)
 }
 
@@ -478,17 +479,19 @@ const handleChangeSearchInputForm = ($event) => {
 
     if (motCle.trim().length > 0) {
         clearMainSearch.classList.remove("d-none")
-        return;
+        // Removed return statement
+    } else {
+        clearMainSearch.classList.add("d-none")
     }
 
-    clearMainSearch.classList.add("d-none")
-    resetComponents();
+    // Removed resetComponents();
     lancerRecherche(APP.recettes, motCle)
 }
 
 
 // Initalisation de l'application
 (function init() {
+    resetComponents();
     lancerRecherche(APP.recettes, "");
     const searchForm = document.getElementById("search-form");
     searchForm.addEventListener("submit", handleSubmitSearchForm)
@@ -514,11 +517,11 @@ const handleChangeSearchInputForm = ($event) => {
 
     const ustensilsISearch = document.getElementById("ustensils-i-search");
     ustensilsISearch.addEventListener("keyup", handleOnchangeUstensilsFilterSearch);
-    ustensilsISearch.addEventListener("focusout", handleOnchangeIngredientsFilterSearch);
+    ustensilsISearch.addEventListener("focusout", handleOnchangeUstensilsFilterSearch);
 
     const appareilsISearch = document.getElementById("appareils-i-search");
     appareilsISearch.addEventListener("keyup", handleOnchangeAppareilsFilterSearch);
-    appareilsISearch.addEventListener("focusout", handleOnchangeIngredientsFilterSearch);
+    appareilsISearch.addEventListener("focusout", handleOnchangeAppareilsFilterSearch);
 
     const clearInputSearchIngredient = document.querySelector("#dropdown-filter-ingredients i.fa-times")
 
