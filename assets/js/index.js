@@ -103,9 +103,19 @@ const appliquerFiltres = (data) =>
 }
 
 const afficherNombreRecette = (recettes) => {
-    const recetteCount = document.getElementById("recette-count");
-    recetteCount.innerText = String(recettes.size).padStart(2, "0") + " recette(s)";
-}
+  const recetteCount = document.getElementById("recette-count");
+
+  let count = 0;
+  
+  // Check if 'recettes' is a Set or an Array
+  if (recettes instanceof Set) {
+      count = recettes.size;
+  } else if (Array.isArray(recettes)) {
+      count = recettes.length;
+  }
+
+  recetteCount.innerText = String(count).padStart(2, "0") + " recette(s)";
+};
 
 const miseAjourFiltres = (data) => 
 {
